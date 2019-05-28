@@ -49,17 +49,19 @@ public class MainActivity extends Activity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
         try {
+            Log.i("sanbo", "MainActivity attachBaseContext....");
             Utils.extractAssets(newBase, "testactivity.apk");
 
             File dexFile = getFileStreamPath("testactivity.apk");
             File optDexFile = getFileStreamPath("testactivity.dex");
             BaseDexClassLoaderHookHelper.patchClassLoader(getClassLoader(), dexFile, optDexFile);
-            
+
             AMSHookHelper.hookAMN();
             AMSHookHelper.hookActivityThread();
+            Log.i("sanbo", "MainActivity attachBaseContext.... success.");
 
         } catch (Throwable e) {
-            e.printStackTrace();
+            Log.e("sanbo", Log.getStackTraceString(e));
         }
     }
 }
